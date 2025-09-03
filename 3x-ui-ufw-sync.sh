@@ -16,8 +16,15 @@ COMMENT="3x-ui-inbound"
 COOKIE_FILE="/tmp/3x-ui-cookies.txt"
 
 # Логинимся и получаем куки
-curl -s -c $COOKIE_FILE -X POST "$PANEL_URL/login" \
-  -d "username=$USERNAME&password=$PASSWORD" > /dev/null
+LOGIN_RESPONSE=$(curl -s -c $COOKIE_FILE -X POST "$PANEL_URL/login" \
+  -d "username=$USERNAME&password=$PASSWORD")
+
+SUCCESS=$(echo "$LOGIN_RESPONSE" | jq -r '.success')
+if [ "$SUCCESS" != "true" ]; then
+    echo "[!] Ошибка авторизации. Проверьте логин/пароль или доступ к панели."
+    exit 1
+fi
+echo "[+] Авторизация успешна"
 
 # Запрашиваем список inbound-ов
 PORTS=$(curl -s -b $COOKIE_FILE "$PANEL_URL/panel/api/inbounds/list" \
