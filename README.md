@@ -36,6 +36,10 @@ sudo chmod +x /usr/local/bin/3x-ui-ufw-sync.sh
 
 3. Настройте переменные в начале скрипта:
 ```bash
+nano /usr/local/bin/3x-ui-ufw-sync.sh
+```
+
+```bash
 PANEL_URL="http://127.0.0.1:60414/"    # полный адрес панели 3x-ui с webBasePath
 USERNAME="your_username"               # логин
 PASSWORD="your_password"               # пароль
